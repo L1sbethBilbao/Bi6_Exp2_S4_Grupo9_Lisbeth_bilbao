@@ -24,6 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class LoginControllerTest {
 
+    private static final String LOGIN_PATH = "/login";
+    private static final String PARAM_PASSWORD = "password";
+
     private static final String ADMIN_USER;
     private static final String ADMIN_PLAIN;
     private static final String LEGACY_PLAIN;
@@ -83,7 +86,7 @@ class LoginControllerTest {
         when(passwordEncoder.matches(ADMIN_PLAIN, "hash")).thenReturn(true);
         when(jwtAuthenticationConfig.getJWTToken(ADMIN_USER)).thenReturn("Bearer eyJ.test");
 
-        mockMvc.perform(post("/login").param("user", ADMIN_USER).param("password", ADMIN_PLAIN))
+        mockMvc.perform(post(LOGIN_PATH).param("user", ADMIN_USER).param(PARAM_PASSWORD, ADMIN_PLAIN))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Bearer eyJ.test"));
     }
@@ -95,13 +98,13 @@ class LoginControllerTest {
         when(passwordEncoder.matches(LEGACY_PLAIN, u.getPassword())).thenReturn(true);
         when(jwtAuthenticationConfig.getJWTToken("u")).thenReturn("Bearer x");
 
-        mockMvc.perform(post("/login").param("user", "u").param("encryptedPass", LEGACY_PLAIN))
+        mockMvc.perform(post(LOGIN_PATH).param("user", "u").param("encryptedPass", LEGACY_PLAIN))
                 .andExpect(status().isOk());
     }
 
     @Test
     void loginBadRequestWhenNoPassword() throws Exception {
-        mockMvc.perform(post("/login").param("user", ADMIN_USER))
+        mockMvc.perform(post(LOGIN_PATH).param("user", ADMIN_USER))
                 .andExpect(status().isBadRequest());
     }
 
@@ -112,7 +115,7 @@ class LoginControllerTest {
         when(userDetailsService.loadUserByUsername(ADMIN_USER)).thenReturn(u);
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(false);
 
-        mockMvc.perform(post("/login").param("user", ADMIN_USER).param("password", WRONG_PLAIN))
+        mockMvc.perform(post(LOGIN_PATH).param("user", ADMIN_USER).param(PARAM_PASSWORD, WRONG_PLAIN))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -121,7 +124,7 @@ class LoginControllerTest {
         when(userDetailsService.loadUserByUsername(OTHER_USER))
                 .thenThrow(new UsernameNotFoundException(OTHER_USER));
 
-        mockMvc.perform(post("/login").param("user", OTHER_USER).param("password", OTHER_PLAIN))
+        mockMvc.perform(post(LOGIN_PATH).param("user", OTHER_USER).param(PARAM_PASSWORD, OTHER_PLAIN))
                 .andExpect(status().isUnauthorized());
     }
 }

@@ -16,6 +16,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ApiExceptionHandlerTest {
 
+    private static final String JSON_ERROR = "$.error";
+
     private MockMvc mockMvc;
 
     @RestController
@@ -47,20 +49,20 @@ class ApiExceptionHandlerTest {
     void mapsNoSuchElementTo404() throws Exception {
         mockMvc.perform(get("/probe/nf").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.error").value("missing"));
+                .andExpect(jsonPath(JSON_ERROR).value("missing"));
     }
 
     @Test
     void mapsIllegalArgumentTo400() throws Exception {
         mockMvc.perform(get("/probe/bad").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("invalid"));
+                .andExpect(jsonPath(JSON_ERROR).value("invalid"));
     }
 
     @Test
     void mapsIllegalStateTo409() throws Exception {
         mockMvc.perform(get("/probe/conflict").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.error").value("state"));
+                .andExpect(jsonPath(JSON_ERROR).value("state"));
     }
 }

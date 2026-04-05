@@ -15,6 +15,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class MyUserDetailsServiceLoadTest {
 
+    private static final String USERNAME_ADMIN = "admin";
+
     @Mock
     private UserRepository userRepository;
 
@@ -24,10 +26,10 @@ class MyUserDetailsServiceLoadTest {
     @Test
     void loadUserByUsernameFound() {
         User u = new User();
-        u.setUsername("admin");
-        when(userRepository.findByUsername("admin")).thenReturn(u);
-        UserDetails details = myUserDetailsService.loadUserByUsername("admin");
-        assertThat(details.getUsername()).isEqualTo("admin");
+        u.setUsername(USERNAME_ADMIN);
+        when(userRepository.findByUsername(USERNAME_ADMIN)).thenReturn(u);
+        UserDetails details = myUserDetailsService.loadUserByUsername(USERNAME_ADMIN);
+        assertThat(details.getUsername()).isEqualTo(USERNAME_ADMIN);
         assertThat(details.getAuthorities()).isNotEmpty();
     }
 
