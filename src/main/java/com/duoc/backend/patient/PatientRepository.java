@@ -1,8 +1,6 @@
-package com.duoc.backend.Patient;
+package com.duoc.backend.patient;
 
 import org.springframework.data.repository.CrudRepository;
-
-import com.duoc.backend.Patient.Patient;
 
 public interface PatientRepository extends CrudRepository<Patient, Long> {
 }

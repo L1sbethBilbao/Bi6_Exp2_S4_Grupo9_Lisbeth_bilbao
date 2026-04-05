@@ -1,4 +1,4 @@
-package com.duoc.backend.Invoice;
+package com.duoc.backend.invoice;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

@@ -1,4 +1,4 @@
-package com.duoc.backend.Appointment;
+package com.duoc.backend.appointment;
 
 import org.springframework.data.repository.CrudRepository;
 

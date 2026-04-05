@@ -1,4 +1,4 @@
-package com.duoc.backend.Patient;
+package com.duoc.backend.patient;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

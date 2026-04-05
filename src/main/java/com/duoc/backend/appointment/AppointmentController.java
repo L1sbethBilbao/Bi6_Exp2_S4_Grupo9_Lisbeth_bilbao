@@ -1,4 +1,4 @@
-package com.duoc.backend.Appointment;
+package com.duoc.backend.appointment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
