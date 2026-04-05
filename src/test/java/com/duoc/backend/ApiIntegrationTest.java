@@ -2,6 +2,7 @@ package com.duoc.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,16 +24,22 @@ class ApiIntegrationTest {
     @Autowired
     private JWTAuthenticationConfig jwtAuthenticationConfig;
 
+    @Value("${app.test.login.admin-user}")
+    private String adminLoginUser;
+
+    @Value("${app.test.login.admin-plain}")
+    private String adminLoginPlain;
+
     @Test
-    void jwtConfig_emitsBearerPrefixedToken() {
+    void jwtConfigEmitsBearerPrefixedToken() {
         assertThat(jwtAuthenticationConfig.getJWTToken("anyUser")).startsWith("Bearer ");
     }
 
     @Test
-    void login_withDefaultAdmin_thenAccessProtectedEndpoint() throws Exception {
+    void loginWithDefaultAdminThenAccessProtectedEndpoint() throws Exception {
         String token = mockMvc.perform(post("/login")
-                        .param("user", "admin")
-                        .param("password", "admin123"))
+                        .param("user", adminLoginUser)
+                        .param("password", adminLoginPlain))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
@@ -43,13 +50,13 @@ class ApiIntegrationTest {
     }
 
     @Test
-    void protectedPath_withMalformedJwt_returnsForbidden() throws Exception {
+    void protectedPathWithMalformedJwtReturnsForbidden() throws Exception {
         mockMvc.perform(get("/patient").header("Authorization", "Bearer not-a-valid-jwt"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    void protectedPath_withoutAuth_returnsForbidden() throws Exception {
+    void protectedPathWithoutAuthReturnsForbidden() throws Exception {
         mockMvc.perform(get("/care"))
                 .andExpect(status().isForbidden());
     }

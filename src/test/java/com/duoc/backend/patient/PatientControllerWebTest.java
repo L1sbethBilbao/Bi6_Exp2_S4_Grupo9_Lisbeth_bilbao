@@ -68,7 +68,7 @@ class PatientControllerWebTest {
     }
 
     @Test
-    void getById_save_delete() throws Exception {
+    void getByIdSaveDelete() throws Exception {
         Patient p = new Patient();
         p.setId(2L);
         when(patientService.getPatientById(2L)).thenReturn(p);

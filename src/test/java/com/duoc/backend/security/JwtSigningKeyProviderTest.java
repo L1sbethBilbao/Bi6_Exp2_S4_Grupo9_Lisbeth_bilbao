@@ -10,7 +10,7 @@ class JwtSigningKeyProviderTest {
     private static final String VALID_32_PLUS = "TestOnly_Min32Chars_JWT_Signing_Key_XXX!!";
 
     @Test
-    void buildsKey_whenSecretLongEnough() {
+    void buildsKeyWhenSecretLongEnough() {
         JwtSigningKeyProvider provider = new JwtSigningKeyProvider(VALID_32_PLUS);
         assertThat(provider.getSecretKey()).isNotNull();
         assertThat(provider.getSecretKey().getAlgorithm()).isNotBlank();

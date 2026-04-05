@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class DomainModelsTest {
 
     @Test
-    void user_userDetailsAndProperties() {
+    void userUserDetailsAndProperties() {
         User u = new User();
         u.setId(1);
         u.setUsername("u");
@@ -35,7 +35,7 @@ class DomainModelsTest {
     }
 
     @Test
-    void patient_gettersSetters() {
+    void patientGettersSetters() {
         Patient p = new Patient();
         p.setId(1L);
         p.setName("n");
@@ -52,7 +52,7 @@ class DomainModelsTest {
     }
 
     @Test
-    void appointment_gettersSetters() {
+    void appointmentGettersSetters() {
         Appointment a = new Appointment();
         a.setId(1L);
         a.setDate(LocalDate.of(2026, 1, 2));

@@ -23,7 +23,7 @@ class CareServiceTest {
     private CareService careService;
 
     @Test
-    void crud_flow() {
+    void crudFlow() {
         Care c = new Care();
         c.setId(1L);
         when(careRepository.findAll()).thenReturn(List.of(c));

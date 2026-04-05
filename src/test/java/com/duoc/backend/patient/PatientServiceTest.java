@@ -23,7 +23,7 @@ class PatientServiceTest {
     private PatientService patientService;
 
     @Test
-    void crud_flow() {
+    void crudFlow() {
         Patient p = new Patient();
         p.setId(1L);
         when(patientRepository.findAll()).thenReturn(List.of(p));

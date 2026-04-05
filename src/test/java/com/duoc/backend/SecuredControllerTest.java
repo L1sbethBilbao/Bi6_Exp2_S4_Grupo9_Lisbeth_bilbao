@@ -19,14 +19,14 @@ class SecuredControllerTest {
     }
 
     @Test
-    void greetings_defaultName() throws Exception {
+    void greetingsDefaultName() throws Exception {
         mockMvc.perform(get("/greetings"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Hello {World}"));
     }
 
     @Test
-    void greetings_customName() throws Exception {
+    void greetingsCustomName() throws Exception {
         mockMvc.perform(get("/greetings").param("name", "Ana"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Hello {Ana}"));

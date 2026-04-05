@@ -23,7 +23,7 @@ class AppointmentServiceTest {
     private AppointmentService appointmentService;
 
     @Test
-    void crud_flow() {
+    void crudFlow() {
         Appointment a = new Appointment();
         a.setId(1L);
         when(appointmentRepository.findAll()).thenReturn(List.of(a));

@@ -22,7 +22,7 @@ class MyUserDetailsServiceLoadTest {
     private MyUserDetailsService myUserDetailsService;
 
     @Test
-    void loadUserByUsername_found() {
+    void loadUserByUsernameFound() {
         User u = new User();
         u.setUsername("admin");
         when(userRepository.findByUsername("admin")).thenReturn(u);
@@ -32,7 +32,7 @@ class MyUserDetailsServiceLoadTest {
     }
 
     @Test
-    void loadUserByUsername_notFound() {
+    void loadUserByUsernameNotFound() {
         when(userRepository.findByUsername("x")).thenReturn(null);
         assertThatThrownBy(() -> myUserDetailsService.loadUserByUsername("x"))
                 .isInstanceOf(UsernameNotFoundException.class);

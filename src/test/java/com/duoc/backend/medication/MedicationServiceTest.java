@@ -23,7 +23,7 @@ class MedicationServiceTest {
     private MedicationService medicationService;
 
     @Test
-    void crud_flow() {
+    void crudFlow() {
         Medication m = new Medication();
         m.setId(1L);
         when(medicationRepository.findAll()).thenReturn(List.of(m));

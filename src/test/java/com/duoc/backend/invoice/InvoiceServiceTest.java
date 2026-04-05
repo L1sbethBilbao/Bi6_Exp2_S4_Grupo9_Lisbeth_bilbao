@@ -56,13 +56,13 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void getAllInvoices_delegatesToRepository() {
+    void getAllInvoicesDelegatesToRepository() {
         when(invoiceRepository.findAll()).thenReturn(List.of(new Invoice()));
         assertThat(invoiceService.getAllInvoices()).hasSize(1);
     }
 
     @Test
-    void getInvoiceById_returnsOptional() {
+    void getInvoiceByIdReturnsOptional() {
         Invoice inv = new Invoice();
         when(invoiceRepository.findById(1L)).thenReturn(Optional.of(inv));
         assertThat(invoiceService.getInvoiceById(1L)).contains(inv);
@@ -71,13 +71,13 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void getInvoicesByAppointmentId_delegates() {
+    void getInvoicesByAppointmentIdDelegates() {
         when(invoiceRepository.findByAppointment_Id(3L)).thenReturn(List.of(new Invoice()));
         assertThat(invoiceService.getInvoicesByAppointmentId(3L)).hasSize(1);
     }
 
     @Test
-    void saveInvoice_success_withMedicationsAndCaresAndExtras() {
+    void saveInvoiceSuccessWithMedicationsAndCaresAndExtras() {
         Invoice input = new Invoice();
         input.setAppointment(appointmentRef(1L));
         input.setMedications(new ArrayList<>(List.of(med)));
@@ -95,7 +95,7 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void saveInvoice_emptyMedicationsAndCares() {
+    void saveInvoiceEmptyMedicationsAndCares() {
         Invoice input = new Invoice();
         input.setAppointment(appointmentRef(1L));
         when(appointmentRepository.findById(1L)).thenReturn(Optional.of(visit));
@@ -108,7 +108,7 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void saveInvoice_rejectsMissingAppointment() {
+    void saveInvoiceRejectsMissingAppointment() {
         Invoice input = new Invoice();
         assertThatThrownBy(() -> invoiceService.saveInvoice(input))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -116,7 +116,7 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void saveInvoice_rejectsMissingAppointmentId() {
+    void saveInvoiceRejectsMissingAppointmentId() {
         Invoice input = new Invoice();
         input.setAppointment(new Appointment());
         assertThatThrownBy(() -> invoiceService.saveInvoice(input))
@@ -124,7 +124,7 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void saveInvoice_rejectsUnknownVisit() {
+    void saveInvoiceRejectsUnknownVisit() {
         Invoice input = new Invoice();
         input.setAppointment(appointmentRef(99L));
         when(appointmentRepository.findById(99L)).thenReturn(Optional.empty());
@@ -134,7 +134,7 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void saveInvoice_rejectsMedicationWithoutId() {
+    void saveInvoiceRejectsMedicationWithoutId() {
         Invoice input = new Invoice();
         input.setAppointment(appointmentRef(1L));
         Medication m = new Medication();
@@ -146,7 +146,7 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void saveInvoice_rejectsUnknownMedication() {
+    void saveInvoiceRejectsUnknownMedication() {
         Invoice input = new Invoice();
         input.setAppointment(appointmentRef(1L));
         input.setMedications(List.of(med));
@@ -158,7 +158,7 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void saveInvoice_rejectsCareWithoutId() {
+    void saveInvoiceRejectsCareWithoutId() {
         Invoice input = new Invoice();
         input.setAppointment(appointmentRef(1L));
         input.setCares(List.of(new Care()));
@@ -169,7 +169,7 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void saveInvoice_rejectsUnknownCare() {
+    void saveInvoiceRejectsUnknownCare() {
         Invoice input = new Invoice();
         input.setAppointment(appointmentRef(1L));
         input.setCares(List.of(care));
@@ -181,7 +181,7 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void saveInvoice_rejectsBlankAdditionalDescription() {
+    void saveInvoiceRejectsBlankAdditionalDescription() {
         Invoice input = new Invoice();
         input.setAppointment(appointmentRef(1L));
         input.setAdditionalCharges(List.of(new AdditionalChargeItem("  ", 1.0)));
@@ -192,7 +192,7 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void saveInvoice_rejectsNegativeAdditionalAmount() {
+    void saveInvoiceRejectsNegativeAdditionalAmount() {
         Invoice input = new Invoice();
         input.setAppointment(appointmentRef(1L));
         input.setAdditionalCharges(List.of(new AdditionalChargeItem("ok", -1.0)));
@@ -203,14 +203,14 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void deleteInvoice_success() {
+    void deleteInvoiceSuccess() {
         when(invoiceRepository.existsById(1L)).thenReturn(true);
         invoiceService.deleteInvoice(1L);
         verify(invoiceRepository).deleteById(1L);
     }
 
     @Test
-    void deleteInvoice_notFound() {
+    void deleteInvoiceNotFound() {
         when(invoiceRepository.existsById(1L)).thenReturn(false);
         assertThatThrownBy(() -> invoiceService.deleteInvoice(1L))
                 .isInstanceOf(NoSuchElementException.class);
